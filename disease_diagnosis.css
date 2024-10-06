@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light background color */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center elements horizontally */
+}
+
+.top_navigator {
+    background-color: #7338a0; /* Blue background for the navigator */
+    color: white; /* White text color */
+    padding: 15px; /* Padding for top navigator */
+    text-align: center; /* Center the text */
+    width: 100%; /* Full width */
+    position: relative; /* Allow other elements to stack below */
+    font-size: 24px; /* Font size for title */
+    font-weight: bold; /* Bold text for emphasis */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+.content {
+    background-color: white; /* White background for the content */
+    padding: 20px;
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    width: 80%; /* Width of the content */
+    max-width: 600px; /* Max width for larger screens */
+    text-align: center; /* Center text in the content */
+}
+
+input[type="text"] {
+    width: 100%; /* Full width of input box */
+    padding: 10px;
+    margin: 20px 0; /* Space above and below the input */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #28a745; /* Green background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 16px; /* Font size for button text */
+}
+
+button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+#result {
+    margin-top: 20px; /* Space above result */
+}
