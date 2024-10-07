@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask import render_template
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -11,12 +12,12 @@ from flask_cors import CORS, cross_origin
 cors = CORS(app)
 
 # Load the datasets and train the model
-dataset = pd.read_csv('Training.csv')
-precautions_df = pd.read_csv('precautions_df.csv')
-workout_df = pd.read_csv('workout_df.csv')
-description_df = pd.read_csv('description.csv')
-medications_df = pd.read_csv('medications.csv')
-diets_df = pd.read_csv('diets.csv')
+dataset = pd.read_csv('datasets/Training.csv')
+precautions_df = pd.read_csv('datasets/precautions_df.csv')
+workout_df = pd.read_csv('datasets/workout_df.csv')
+description_df = pd.read_csv('datasets/description.csv')
+medications_df = pd.read_csv('datasets/medications.csv')
+diets_df = pd.read_csv('datasets/diets.csv')
 
 # Data preprocessing
 X = dataset.drop('prognosis', axis=1)
@@ -31,6 +32,19 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.3, random_
 # Train RandomForestClassifier
 rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train, y_train)
+
+# index
+@app.route("/", methods=['GET'])
+def index():
+    return render_template('index.html')
+
+@app.route("/diagnose", methods=["GET"])
+def diagnose_get():
+    return render_template('disease_diagnosis.html')
+
+@app.route("/faq", methods=["GET"])
+def faq():
+    return render_template('faq.html')
 
 # Route for diagnosis
 @app.route('/diagnose', methods=['POST'])
@@ -48,18 +62,19 @@ def diagnose():
     predicted_disease_encoded = rf.predict(input_data)[0]
     predicted_disease = le.inverse_transform([predicted_disease_encoded])[0]
 
+    # Convert ndarray to list for precautions
+    precautions_list = precautions_df[precautions_df['Disease'] == predicted_disease].values[0][2:].tolist()
+
     # Prepare the result
     result = {
         "diagnosis": predicted_disease,
-        "precautions": precautions_df[precautions_df['Disease'] == predicted_disease].values[0][2:],
+        "precautions": precautions_list,
         "workout": workout_df[workout_df['disease'] == predicted_disease]['workout'].values[0],
         "description": description_df[description_df['Disease'] == predicted_disease]['Description'].values[0],
         "medication": medications_df[medications_df['Disease'] == predicted_disease]['Medication'].values[0],
         "diet": diets_df[diets_df['Disease'] == predicted_disease]['Diet'].values[0],
     }
 
-    for k, v in result.items():
-        result[k] = list(v)
     print(result)
     return jsonify(result)
 

@@ -54,3 +54,10 @@ button:hover {
 #result {
     margin-top: 20px; /* Space above result */
 }
+
+.diagnosis_result{
+    text-align: left;
+    justify-content: left;
+    display: flex;
+    flex-direction: column;
+}
