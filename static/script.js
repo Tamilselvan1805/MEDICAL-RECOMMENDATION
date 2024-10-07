@@ -22,8 +22,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
-
-
-
-
